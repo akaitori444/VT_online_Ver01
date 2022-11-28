@@ -6,52 +6,49 @@
 <body>
 
     <script>
-    var config = {
-        type: Phaser.AUTO,
-        width: 800,
-        height: 600,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 200 }
-            }
-        },
-        scene: {
-            preload: preload,
-            create: create
-        }
+const config = {
+    type: Phaser.AUTO, // どのレンダラーを使用するか
+    width: 800, // キャンバスの幅 (ピクセル単位)
+    height: 600, // キャンバスの高さ (ピクセル単位)
+    parent: "game-container", // キャンバスを追加する DOM 要素の ID
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
     };
 
-    var game = new Phaser.Game(config);
+    const game = new Phaser.Game(config);
 
-    function preload ()
-    {
-        this.load.setBaseURL('http://labs.phaser.io');
-
-        this.load.image('sky', 'assets/skies/space3.png');
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-        this.load.image('red', 'assets/particles/red.png');
+    function preload() {
+    // 一度実行すると、画像や音声などのアセットが読み込まれます
+    this.load.image("mario-tiles", "../assets/tilesets/super-mario-tiles.png");
     }
 
-    function create ()
-    {
-        this.add.image(400, 300, 'sky');
+    function create() {
+    // プリロード内のすべてのアセットがロードされた後、1 回実行されます
+    const level = [
+    [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+    [  0,   1,   2,   3,   0,   0,   0,   1,   2,   3,   0 ],
+    [  0,   5,   6,   7,   0,   0,   0,   5,   6,   7,   0 ],
+    [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+    [  0,   0,   0,  14,  13,  14,   0,   0,   0,   0,   0 ],
+    [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+    [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+    [  0,   0,  14,  14,  14,  14,  14,   0,   0,   0,  15 ],
+    [  0,   0,   0,   0,   0,   0,   0,   0,   0,  15,  15 ],
+    [ 35,  36,  37,   0,   0,   0,   0,   0,  15,  15,  15 ],
+    [ 39,  39,  39,  39,  39,  39,  39,  39,  39,  39,  39 ]
+  ];
 
-        var particles = this.add.particles('red');
+  // When loading from an array, make sure to specify the tileWidth and tileHeight
+  const map = this.make.tilemap({ data: level, tileWidth: 16, tileHeight: 16 });
+  const tiles = map.addTilesetImage("mario-tiles");
+  const layer = map.createLayer(0, tiles, 0, 0);
+    }
 
-        var emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        });
-
-        var logo = this.physics.add.image(400, 100, 'logo');
-
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
-
-        emitter.startFollow(logo);
+    function update(time, delta) {
+    // シーンの間、フレームごとに 1 回実行します。
     }
     </script>
 
