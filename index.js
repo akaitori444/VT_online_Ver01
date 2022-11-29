@@ -3,7 +3,9 @@
  * Asset Credits:
  *  - Tuxemon, https://github.com/Tuxemon/Tuxemon
  */
-
+//-----------------------------------------------------------------------------------//
+//config
+//-----------------------------------------------------------------------------------//
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -28,6 +30,9 @@ let cursors;
 let player;
 let showDebug = false;
 
+//-----------------------------------------------------------------------------------//
+//preload
+//-----------------------------------------------------------------------------------//
 function preload() {
   this.load.image("tiles", "../assets/tilesets/tuxmon-sample-32px-extruded.png");
   this.load.tilemapTiledJSON("map", "../assets/tilemaps/tuxemon-town.json");
@@ -39,7 +44,9 @@ function preload() {
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
   this.load.atlas("atlas", "../assets/atlas/atlas.png", "../assets/atlas/atlas.json");
 }
-
+//-----------------------------------------------------------------------------------//
+//create
+//-----------------------------------------------------------------------------------//
 function create() {
   const map = this.make.tilemap({ key: "map" });
 
@@ -129,7 +136,7 @@ function create() {
 
   // 画面上の「固定」位置を持つヘルプ テキスト
   this.add
-    .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+    .text(16, 16, '矢印キーで移動\n街を探索してみましょう\nD "キーを押すとヒットボックスが表示されます', {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 10 },
@@ -154,7 +161,7 @@ function create() {
 }
 
 function update(time, delta) {
-  const speed = 175;
+  const speed = 300;
   const prevVelocity = player.body.velocity.clone();
 
   // 最後のフレームから前の動きを停止します
