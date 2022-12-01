@@ -1,37 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="je">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Phaser Template</title>
-
-    <style>
-      html,
-      body,
-      #game-container {
-        margin: 0;
-        padding: 0;
-      }
-
-      #game-container {
-        min-width: 100vw;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      #game-container > canvas {
-        border-radius: 5px;
-      }
-    </style>
+    <title>VT_online_デモ版</title>
+      <!--リセットCSS-->
+      <link rel="canonical" href="#">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css"/>
   </head>
 
   <body>
-    <div id="game-container"></div>
+    <div class="game_view">
+      <div id="game-container"></div>
+      <div>
+        <!-- 入力場所 -->
+        <form>
+          <fieldset class="">
+            <legend>チャット入力</legend>
+            <div>
+              名前: <input type="text" id="name">
+            </div>
+            <div>
+              本文: <input type="text" id="text">
+            </div>
+            <div>
+              <button type="button" id="send">送る</button>
+            </div>
+          </fieldset>
+        </form>
+        <!-- データ出力場所 -->
+        <div class="chat">
+          <ul id="output"></ul>
+        </div>
+      </div>
+    </div>
+
+
+  
+
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      // 日時をいい感じの形式にする関数
+      function convertTimestampToDatetime(timestamp) {
+        const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+        const Y = _d.getFullYear();
+        const m = (_d.getMonth() + 1).toString().padStart(2, '0');
+        const d = _d.getDate().toString().padStart(2, '0');
+        const H = _d.getHours().toString().padStart(2, '0');
+        const i = _d.getMinutes().toString().padStart(2, '0');
+        const s = _d.getSeconds().toString().padStart(2, '0');
+        //return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+        return `${m}/${d} ${H}:${i}`;
+      }
+    </script>
+    <!-- 以下にfirebaseのコードを貼り付けよう -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBtAdldkgVkIFrOlsYTiyyRS69xIv3jf1A",
+        authDomain: "gstown1129-2022.firebaseapp.com",
+        projectId: "gstown1129-2022",
+        storageBucket: "gstown1129-2022.appspot.com",
+        messagingSenderId: "351587049601",
+        appId: "1:351587049601:web:211860b62009f92aac6d80"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+  
+  //ーーーーーーーーーーーーーーー//
+  //           追加分
+  //ーーーーーーーーーーーーーーー//
+  
+    // 🔽 追加 / `9.2.0`の部分を↑のFirestoreから貼り付けたコードのバージョンに合わせる
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+        query,
+        orderBy,
+        onSnapshot,
+      } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
+  
+  
+      // 🔽 追加
+      const db = getFirestore(app);
+  
+  //ーーーーーーーーーーーーーーー//
+  
+      $("#send").on("click", function () {
+        // 送信時に必要な処理
+        const postData = {
+          name: $("#name").val(),
+          text: $("#text").val(),
+          time: serverTimestamp(),
+        };
+        addDoc(collection(db, "chat"), postData);
+        $("#text").val("");
+            });
+  
+    // queryを使って時間順に変更
+    // 昇順（asc）か降順（desc）
+        const q = query(collection(db, "chat"), orderBy("time", "desc"));
+  
+    // データ取得処理
+      onSnapshot(q, (querySnapshot) => {
+  
+        //console.log(querySnapshot.docs);
+        const documents = [];
+        querySnapshot.docs.forEach(function (doc) {
+          const document = {
+            id: doc.id,
+            data: doc.data(),
+          };
+          documents.push(document);
+        });
+        console.log(documents);
+  
+    // データ入力処理
+        const htmlElements = [];
+        documents.forEach(function (document) {
+          htmlElements.push(`
+            <li id="${document.id}">
+              <p class="plname" style="color: red;font-weight:bold;">${document.data.name} </p>
+              <p>投稿時刻 【${convertTimestampToDatetime(document.data.time.seconds)}】</p>
+              <p>${document.data.text}</p>
+            </li>
+          `);
+        });
+  
+        $("#output").html(htmlElements);
+      });
+    </script>
+
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <script src="./index.js" type="module"></script>
+
   </body>
 
 

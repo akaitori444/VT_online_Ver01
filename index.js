@@ -43,6 +43,7 @@ function preload() {
   // アトラスを使用しない場合は、スプライト シートを使用して同じことを行うことができます。以下を参照してください。
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
   this.load.atlas("atlas", "../assets/atlas/atlas.png", "../assets/atlas/atlas.json");
+  this.load.spritesheet('witch', 'assets/witch.png',{ frameWidth: 32, frameHeight: 32 });
 }
 //-----------------------------------------------------------------------------------//
 //create
@@ -76,6 +77,15 @@ function create() {
     .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
     .setSize(30, 40)
     .setOffset(0, 24);
+
+/*  pl2 = this.add.sprite(400,300,'witch');
+  this.anims.create({
+      key: 'down',
+      frames: this.anims.generateFrameNumbers('witch', { start: 0, end: 2 }),
+      frameRate: 5,
+      repeat: -1
+  });
+  player.anims.play('down',true);*/
 
   //プレイヤーとworldLayerの接触判定。
   this.physics.add.collider(player, worldLayer);
@@ -128,6 +138,17 @@ function create() {
     repeat: -1,
   });
 
+/*  anims.create({
+    key: 'down',
+    frames: this.anims.generateFrameNumbers('witch',    { start: 0, end: 2 
+    }),
+    frameRate: 5,
+    repeat: -1
+  }),*/
+
+
+
+
   const camera = this.cameras.main;
   camera.startFollow(player);
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -136,7 +157,7 @@ function create() {
 
   // 画面上の「固定」位置を持つヘルプ テキスト
   this.add
-    .text(16, 16, '矢印キーで移動\n街を探索してみましょう\nD "キーを押すとヒットボックスが表示されます', {
+    .text(16, 16, '矢印キーで移動\n街を探索してみましょう\n街を探索してみましょう\n左にコメントが打ち込めます\n現在のコメント数Score:${documents}', {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 10 },
@@ -144,7 +165,7 @@ function create() {
     })
     .setScrollFactor(0)
     .setDepth(30);
-
+  //------------------------------------------------------------------------------------------------------//
   // グラフィックをデバッグする
   this.input.keyboard.once("keydown-D", (event) => {
     // 物理デバッグをオンにして、プレイヤーのヒットボックスを表示します
@@ -152,12 +173,13 @@ function create() {
 
     // プレイヤーの上、ヘルプ テキストの下に worldLayer 衝突グラフィックを作成します
     const graphics = this.add.graphics().setAlpha(0.75).setDepth(20);
-    worldLayer.renderDebug(graphics, {
+    /*worldLayer.renderDebug(graphics, {
       tileColor: null, // 衝突しないタイルの色
       collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // 衝突するタイルの色
       faceColor: new Phaser.Display.Color(40, 39, 37, 255), // 衝突する面のエッジの色
-    });
-  });
+    });*/
+  //------------------------------------------------------------------------------------------------------//
+});
 }
 
 function update(time, delta) {

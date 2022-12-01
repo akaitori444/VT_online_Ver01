@@ -1,0 +1,36 @@
+html,
+body,
+#game-container {
+  margin: 0;
+  padding: 0;
+}
+#game-container {
+  min-width: 60vw;
+  min-height: 80vh;
+}
+#game-container > canvas {border-radius: 2px;}
+
+#output li {
+    margin: 0%;
+    all: unset;
+  
+}
+
+.game_view{
+    display: flex;
+}
+/*----------------------------------------------------------------------------------*/
+コメント欄
+/*----------------------------------------------------------------------------------*/
+.plname{
+    color: red;
+}
+
+.chat{
+    font-size: 16px;
+    margin-bottom:30px;
+    padding: 4px;
+    background-color: rgba(255, 185, 105, 0.5);  /* 背景色*/
+
+}
+/*----------------------------------------------------------------------------------*/

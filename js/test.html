@@ -1,0 +1,54 @@
+<div id="canvas"></div>
+<script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+<script>
+    //Start_view
+class Start_view extends Phaser.Scene {
+
+constructor (){
+        super({ key: 'Start_view' });
+ }
+
+create(){
+  
+  let sceneName = this.add.text(200, 120, 'オンラインゲーム作るぞ').setFontSize(30).setFontFamily("Arial").setOrigin(0.5).setInteractive();
+  
+  let change = this.add.text(250, 230, 'ゲームスタート').setFontSize(20).setFontFamily("Arial").setOrigin(0.5).setInteractive();
+  
+  change.on('pointerdown', function (pointer) {
+  this.scene.start('main_view');
+   }, this);
+ }
+};
+
+//main_view
+class main_view extends Phaser.Scene {
+
+constructor (){
+        super({ key: 'main_view' });
+ }
+
+create(){
+  
+  let sceneName = this.add.text(150, 70, 'SceneB').setFontSize(30).setFontFamily("Arial").setOrigin(0.5).setInteractive();
+  
+  let change = this.add.text(150, 130, 'Change Scene!').setFontSize(20).setFontFamily("Arial").setOrigin(0.5).setInteractive();
+  
+  change.on('pointerdown', function (pointer) {
+  this.scene.start('Start_view');
+   }, this);
+ }
+ 
+};
+
+//config
+let config = {
+type: Phaser.AUTO,
+parent: 'canvas',
+width: 800,
+height: 600,
+scene: [ Start_view,main_view  ]
+};
+
+//game
+let game = new Phaser.Game(config);
+</script>
