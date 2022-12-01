@@ -40,10 +40,10 @@ function preload() {
   // アトラスは、複数の画像を 1 つのテクスチャにまとめる方法です。 私はそれを使ってすべてをロードしています
   // プレーヤーのアニメーション (左に歩く、右に歩くなど) を 1 つの画像にまとめます。 詳細については、次を参照してください。
   //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
+  this.load.atlas("atlas", "../assets/atlas/atlas.png", "../assets/atlas/atlas.json");
   // アトラスを使用しない場合は、スプライト シートを使用して同じことを行うことができます。以下を参照してください。
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
-  this.load.atlas("atlas", "../assets/atlas/atlas.png", "../assets/atlas/atlas.json");
-  this.load.spritesheet('witch', 'assets/witch.png',{ frameWidth: 32, frameHeight: 32 });
+  //this.load.spritesheet('witch', 'assets/witch.png',{ frameWidth: 32, frameHeight: 32 });
 }
 //-----------------------------------------------------------------------------------//
 //create
@@ -157,7 +157,7 @@ function create() {
 
   // 画面上の「固定」位置を持つヘルプ テキスト
   this.add
-    .text(16, 16, '矢印キーで移動\n街を探索してみましょう\n街を探索してみましょう\n左にコメントが打ち込めます\n現在のコメント数Score:${documents}', {
+    .text(16, 16, `矢印キーで移動\n街を探索してみましょう\n街を探索してみましょう\n左にコメントが打ち込めます\n現在のコメント数:${this.documents}`, {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 10 },

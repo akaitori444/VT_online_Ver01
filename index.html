@@ -65,12 +65,7 @@
     
       // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyBtAdldkgVkIFrOlsYTiyyRS69xIv3jf1A",
-        authDomain: "gstown1129-2022.firebaseapp.com",
-        projectId: "gstown1129-2022",
-        storageBucket: "gstown1129-2022.appspot.com",
-        messagingSenderId: "351587049601",
-        appId: "1:351587049601:web:211860b62009f92aac6d80"
+
       };
     
       // Initialize Firebase
@@ -139,11 +134,13 @@
         });
   
         $("#output").html(htmlElements);
+        console.log(documents.length);
+        //localStorage.setItem(documents.length);
       });
     </script>
 
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-    <script src="./index.js" type="module"></script>
+    <script src="./js/index.js" type="module"></script>
 
   </body>
 
